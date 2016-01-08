@@ -4,7 +4,7 @@
 <!--[if IE 8]>    <html class="ie ie8 lt-ie9"               lang="es-MX"> <![endif]-->
 <!--[if IE 9]>    <html class="ie ie9"                      lang="es-MX"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="es-MX" class="no-ie">
+<html lang="es-MX" class="no-ie" ng-app="app">
 <!--<![endif]-->
 
 <head>
@@ -27,6 +27,9 @@
    <script src="vendor/modernizr/modernizr.js" type="application/javascript"></script>
    <!-- FastClick for mobiles-->
    <script src="vendor/fastclick/fastclick.js" type="application/javascript"></script>
+   <style type="text/css">
+      .angular-google-map-container { height: 400px; }
+   </style>
 </head>
 
 <body>
@@ -34,115 +37,14 @@
    <div class="wrapper">
       <!-- START Top Navbar-->
       <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
-         <!-- START navbar header-->
-         <div class="navbar-header">
-            <a href="index.html" class="navbar-brand">
-               <div class="brand-logo">
-                  <img src="app/img/logo.png" alt="App Logo" class="img-responsive">
-               </div>
-               <div class="brand-logo-collapsed">
-                  <img src="app/img/logo-single.png" alt="App Logo" class="img-responsive">
-               </div>
-            </a>
-         </div>
-         <!-- END navbar header-->
-         <!-- START Nav wrapper-->
-         <div class="nav-wrapper">
-            <!-- START Left navbar-->
-            <ul class="nav navbar-nav">
-               <li>
-                  <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                  <a href="#" data-toggle-state="aside-collapsed" class="hidden-xs">
-                     <em class="fa fa-navicon"></em>
-                  </a>
-                  <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
-                  <a href="#" data-toggle-state="aside-toggled" class="visible-xs">
-                     <em class="fa fa-navicon"></em>
-                  </a>
-               </li>
-            </ul>
-            <!-- END Left navbar-->
-            <!-- START Right Navbar-->
-            <ul class="nav navbar-nav navbar-right">
-               <!-- Search icon-->
-               <li>
-                  <a href="#" data-toggle="navbar-search">
-                     <em class="fa fa-search"></em>
-                  </a>
-               </li>
-               <!-- Fullscreen-->
-               <li>
-                  <a href="#" data-toggle="fullscreen">
-                     <em class="fa fa-expand"></em>
-                  </a>
-               </li>
-               
-               <!-- START Contacts button-->
-               <li>
-                  <a href="#" data-toggle-state="offsidebar-open">
-                     <em class="fa fa-group"></em>
-                  </a>
-               </li>
-               <!-- END Contacts menu-->
-            </ul>
-            <!-- END Right Navbar-->
-         </div>
-         <!-- END Nav wrapper-->
-         <!-- START Search form-->
-         <form role="search" class="navbar-form">
-            <div class="form-group has-feedback">
-               <input type="text" placeholder="Type and hit Enter.." class="form-control">
-               <div data-toggle="navbar-search-dismiss" class="fa fa-times form-control-feedback"></div>
-            </div>
-            <button type="submit" class="hidden btn btn-default">Submit</button>
-         </form>
-         <!-- END Search form-->
+         <div ng-include=" 'views/nav.html' "></div>
       </nav>
       <!-- END Top Navbar-->
       <!-- START aside-->
       <aside class="aside">
          <!-- START Sidebar (left)-->
          <nav class="sidebar">
-            <!-- START user info-->
-            <div class="item user-block">
-               <!-- User picture-->
-               <div class="user-block-picture">
-                  <div class="user-block-status">
-                     <img src="app/img/user/02.jpg" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
-                     <div class="circle circle-success circle-lg"></div>
-                  </div>
-                  <!-- Status when collapsed-->
-               </div>
-               <!-- Name and Role-->
-               <div class="user-block-info">
-                  <span class="user-block-name item-text">Bienvenido</span>
-                  <span class="user-block-role">Nombre usuario</span>
-               </div>
-            </div>
-            <!-- END user info-->
-            <ul class="nav">
-               <!-- START Menu-->
-               <li class="nav-heading">MENU</li>
-               <li class="active">
-                  <a href="index.html" title="Dashboard" data-toggle="" class="no-submenu">
-                     <em class="fa fa-dot-circle-o"></em>
-                     <span class="item-text">Inicio</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="widgets.html" title="Widgets" data-toggle="" class="no-submenu">
-                     <em class="fa fa-file"></em>
-                     <span class="item-text">Nuevo Registro</span>
-                  </a>
-               </li>
-               <li>
-                  <a href="widgets.html" title="Widgets" data-toggle="" class="no-submenu">
-                     <em class="fa fa-search"></em>
-                     <span class="item-text">Buscar Registro</span>
-                  </a>
-               </li>
-               <!-- END Menu-->
-            </ul>
+            <div ng-include=" 'views/menuBar.html' "></div>
          </nav>
          <!-- END Sidebar (left)-->
       </aside>
@@ -151,8 +53,11 @@
       <!-- START Main section-->
       <section>
          <!-- START Page content-->
-         <div class="content-wrapper">
+         <div class="content-wrapper" ng-controller="mapCtrl">
             <h3>Hola</h3>
+
+            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+
          </div>
          <!-- END Page content-->
       </section>
@@ -161,9 +66,15 @@
 
 
    <!-- Main vendor Scripts-->
+   <script src="bower_components/lodash/lodash.min.js"></script>
+   <script src="http://maps.google.com/maps/api/js?v=3.4&sensor=false" type="text/javascript"></script>  
    <script src="vendor/jquery/jquery.min.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
+   <script src="bower_components/angular/angular.min.js"></script>
+   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+   <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+   <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+   <script src="app/js/app.js"></script>
 </body>
 
 </html>
