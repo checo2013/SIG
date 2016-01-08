@@ -55,8 +55,14 @@
          <!-- START Page content-->
          <div class="content-wrapper" ng-controller="mapCtrl">
             <h3>Hola</h3>
+            <button class="btn btn-primary" ng-click="miUbicacion()">Buscar mi ubicación</button>
+            <ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true" options="options">
+               <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+               <ui-gmap-layer type="TransitLayer"></ui-gmap-layer>
+               <ui-gmap-layer type="TrafficLayer"></ui-gmap-layer>
 
-            <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+               <ui-gmap-layer namespace="layer" ng-repeat="layer in inegi.layers"></ui-gmap-layer>
+            </ui-gmap-google-map>
 
          </div>
          <!-- END Page content-->
@@ -68,6 +74,7 @@
    <!-- Main vendor Scripts-->
    <script src="bower_components/lodash/lodash.min.js"></script>
    <script src="http://maps.google.com/maps/api/js?v=3.4&sensor=false" type="text/javascript"></script>  
+    <script type="text/javascript" src="http://mapas.inegi.org.mx/earth_map/query?request=Json&var=geeServerDefs"></script>  
    <script src="vendor/jquery/jquery.min.js"></script>
    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
    <script src="bower_components/angular/angular.min.js"></script>
